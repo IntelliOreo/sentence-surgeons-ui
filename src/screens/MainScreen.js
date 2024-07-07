@@ -1,7 +1,7 @@
 // src/screens/MainScreen.js
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Modal, Pressable } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Modal, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import MessageInput from '../components/MessageInput';
 import { sendMessageToLambda } from '../api/lambda';
 import { globalStyles, COLORS, FONTS, FONT_SIZES } from '../styles/globalStyles';
@@ -39,35 +39,43 @@ export default function MainScreen({ route }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.greeting}>Hello, {name}!</Text>
-      <MessageInput
-        message={message}
-        setMessage={handleMessageChange}
-        onSend={handleSendMessage}
-      />
-       <ScrollView style={styles.resultsContainer}>
-        {results.map((result, index) => (
-          <Pressable
-            key={index}
-            onPress={() => handleShowResult(result)}
-          >
-            <Text style={[styles.result, index > 0 && styles.oldResult]} numberOfLines={3} ellipsizeMode="tail">
-              {result}
-            </Text>
-          </Pressable>
-        ))}
-      </ScrollView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.container}>
+        <Text style={styles.greeting}>Hello, {name}!</Text>
+        
+        <MessageInput
+          message={message}
+          setMessage={handleMessageChange}
+          onSend={handleSendMessage}
+        />
 
-      <Modal visible={showModal} animationType="slide">
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalText}>{selectedResult}</Text>
-          <Pressable style={styles.closeButton} onPress={handleCloseModal}>
-            <Text style={styles.closeButtonText}>Close</Text>
-          </Pressable>
-        </View>
-      </Modal>
-    </View>
+        <ScrollView 
+          style={styles.resultsContainer}
+          contentContainerStyle={styles.resultsContent}
+          keyboardShouldPersistTaps="handled"
+        >
+          {results.map((result, index) => (
+            <Pressable
+              key={index}
+              onPress={() => handleShowResult(result)}
+            >
+              <Text style={[styles.result, index > 0 && styles.oldResult]} numberOfLines={3} ellipsizeMode="tail">
+                {result}
+              </Text>
+            </Pressable>
+          ))}
+        </ScrollView>
+
+        <Modal visible={showModal} animationType="slide">
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>{selectedResult}</Text>
+            <Pressable style={styles.closeButton} onPress={handleCloseModal}>
+              <Text style={styles.closeButtonText}>Close</Text>
+            </Pressable>
+          </View>
+        </Modal>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -83,6 +91,10 @@ const styles = StyleSheet.create({
   },
   resultsContainer: {
     flex: 1,
+    marginTop: 20, // Add some space between the input and results
+  },
+  resultsContent: {
+    flexGrow: 1,
   },
   result: {
     ...globalStyles.secondaryText,
@@ -95,7 +107,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     borderColor: 'rgba(0, 0, 0, 0.25)',
-    
   },
   oldResult: {
     ...globalStyles.secondaryText,
