@@ -51,9 +51,8 @@ export default function MainScreen({ route }) {
           <Pressable
             key={index}
             onPress={() => handleShowResult(result)}
-            style={[styles.result, index > 0 && styles.oldResult]}
           >
-            <Text numberOfLines={3} ellipsizeMode="tail">
+            <Text style={[styles.result, index > 0 && styles.oldResult]} numberOfLines={3} ellipsizeMode="tail">
               {result}
             </Text>
           </Pressable>
@@ -88,13 +87,20 @@ const styles = StyleSheet.create({
   result: {
     ...globalStyles.secondaryText,
     fontSize: FONT_SIZES.medium,
-    marginBottom: 10,
+    margin: 10,
+    marginLeft: 0,
+    marginRight: 0,
     color: COLORS.primary,
+    borderWidth: 2,
+    borderRadius: 10,
+    padding: 10,
+    borderColor: 'rgba(0, 0, 0, 0.25)',
+    
   },
   oldResult: {
     ...globalStyles.secondaryText,
     color: COLORS.oldResult,
-    marginBottom: 20,
+    margin: 10,
   },
   modalContainer: {
     flex: 1,
