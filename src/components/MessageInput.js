@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, StyleSheet } from 'react-native';
 import CustomButton from './CustomButton';
 import { globalStyles, COLORS, FONTS, FONT_SIZES } from '../styles/globalStyles';
+import { Keyboard } from 'react-native';
 
 const MAX_CHAR_LIMIT = 300;
 
@@ -28,6 +29,7 @@ const MessageInput = ({ message, setMessage, onSend }) => {
     if (isValid) {
       onSend();
       setMessage(''); 
+      Keyboard.dismiss();
     }
   };
 

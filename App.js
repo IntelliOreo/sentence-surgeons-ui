@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useFonts } from 'expo-font';
 import NameScreen from './src/screens/NameScreen';
 import MainScreen from './src/screens/MainScreen';
-import SignInScreen from './src/screens/SignInScreen';
+import LogInScreen from './src/screens/LogInScreen';
 import SummaryScreen from './src/screens/SummaryScreen';
 
 import { 
@@ -43,7 +43,7 @@ export default function App() {
               <Tab.Screen name="Main" component={MainScreen} options={{ title: 'LLM Chat' }} />
               {/* {isSignedIn ? (<Stack.Screen name="Summary" component={SummaryScreen} options={{ title: 'Summary' }} />) : null} */}
               <Stack.Screen name="Summary" component={SummaryScreen} options={{ title: 'Summary' }} />
-              <Stack.Screen name="SignIn" component={SignInScreen} options={{ title: 'Sign In' }} />
+              <Stack.Screen name="LogIn" component={LogInScreen} options={{ title: 'Log In' }} />
             </Tab.Navigator>
           </NavigationContainer>
       </KeyboardAvoidingView>
