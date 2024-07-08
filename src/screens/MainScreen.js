@@ -42,7 +42,8 @@ export default function MainScreen({ route }) {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
         <Text style={styles.greeting}>Hello, {name}!</Text>
-        
+        <Text style={styles.instruction}>Let's work on it</Text>
+
         <MessageInput
           message={message}
           setMessage={handleMessageChange}
@@ -87,6 +88,12 @@ const styles = StyleSheet.create({
   greeting: {
     ...globalStyles.primaryText,
     fontSize: FONT_SIZES.large,
+    marginBottom: 20,
+  },
+  instruction: {
+    ...globalStyles.secondaryText,
+    fontSize: FONT_SIZES.medium,
+    color: 'black',
     marginBottom: 20,
   },
   resultsContainer: {
