@@ -1,9 +1,13 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useFonts } from 'expo-font';
 import NameScreen from './src/screens/NameScreen';
 import MainScreen from './src/screens/MainScreen';
+import SignInScreen from './src/screens/SignInScreen';
+import SummaryScreen from './src/screens/SummaryScreen';
+
 import { 
   KeyboardAvoidingView, 
   ScrollView, 
@@ -25,6 +29,8 @@ export default function App() {
     return null;
   }
 
+  const Tab = createBottomTabNavigator();
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView 
@@ -32,10 +38,13 @@ export default function App() {
         style={styles.keyboardAvoidingView}
       >
           <NavigationContainer>
-            <Stack.Navigator initialRouteName="Name">
-              <Stack.Screen name="Name" component={NameScreen} options={{ title: 'Welcome' }} />
-              <Stack.Screen name="Main" component={MainScreen} options={{ title: 'LLM Chat' }} />
-            </Stack.Navigator>
+            <Tab.Navigator initialRouteName="Name">
+              <Tab.Screen name="Name" component={NameScreen} options={{ title: 'Welcome' }} />
+              <Tab.Screen name="Main" component={MainScreen} options={{ title: 'LLM Chat' }} />
+              {/* {isSignedIn ? (<Stack.Screen name="Summary" component={SummaryScreen} options={{ title: 'Summary' }} />) : null} */}
+              <Stack.Screen name="Summary" component={SummaryScreen} options={{ title: 'Summary' }} />
+              <Stack.Screen name="SignIn" component={SignInScreen} options={{ title: 'Sign In' }} />
+            </Tab.Navigator>
           </NavigationContainer>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -45,7 +54,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff', // or any color you prefer
+    backgroundColor: '#fff', 
   },
   keyboardAvoidingView: {
     flex: 1,
