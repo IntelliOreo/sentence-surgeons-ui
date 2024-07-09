@@ -27,3 +27,17 @@
 //     throw error;
 //   }
 // };
+
+// export const restoreSignInState = async () => {
+//     try {
+//       const isSignedIn = await GoogleSignin.isSignedIn();
+//       if (isSignedIn) {
+//         const userInfo = await GoogleSignin.getCurrentUser();
+//         return userInfo;
+//       }
+//       return null;
+//     } catch (error) {
+//       console.error('Restore Sign-In State Error:', error);
+//       throw error;
+//     }
+//   };

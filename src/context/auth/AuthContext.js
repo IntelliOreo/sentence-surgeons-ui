@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import LoadingScreen from '../screens/LoadingScreen';
+import LoadingScreen from '../../screens/LoadingScreen';
 
 //import { configureGoogleSignIn, signInWithGoogle, signOutGoogle, restoreSignInState } from './GoogleSignIn';
 
