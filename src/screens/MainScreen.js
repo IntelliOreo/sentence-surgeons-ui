@@ -1,12 +1,13 @@
 // src/screens/MainScreen.js
 
 import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, ScrollView, Modal, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, Alert, StyleSheet, ScrollView, Modal, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import MessageInput from '../components/MessageInput';
 import { sendMessageToLambda } from '../api/lambda';
 import { globalStyles, COLORS, FONTS, FONT_SIZES } from '../styles/globalStyles';
 import { AuthContext } from '../context/auth/AuthContext';
 import { MessageHistoryContext } from '../context/messageHistory/MessageHistoryContext';
+import { isConnected } from '../utils/network';
 
 export default function MainScreen({ route }) {
   const {user, isSignedIn } = useContext(AuthContext);
@@ -48,6 +49,13 @@ export default function MainScreen({ route }) {
       setResults((prevResults) => [response, ...prevResults.slice(0, 2)]);
       setMessage('');
     } catch (error) {
+      if(!isConnected){
+        Alert.alert(
+          'No Internet Connection',
+          'Please check your network settings and try again.',
+          [{ text: 'OK' }]
+        );
+      }
       console.error('Error sending message:', error);
       setResults((prevResults) => ['An error occurred. Please try again.', ...prevResults.slice(0, 2)]);
     }
