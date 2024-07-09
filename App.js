@@ -3,7 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useFonts } from 'expo-font';
-import { AuthContext, AuthProvider } from './src/auth/AuthContext';
+import { AuthContext, AuthProvider } from './src/context/auth/AuthContext';
+import { MessageHistoryProvider } from './src/context/messageHistory/MessageHistoryContext';
 import NameScreen from './src/screens/NameScreen';
 import MainScreen from './src/screens/MainScreen';
 import LogInScreen from './src/screens/LogInScreen';
@@ -30,6 +31,7 @@ export default function App() {
   }
   let  { isSignedIn, checkSignInStatus }  = useContext(AuthContext);
   console.log('isSignedIn - in app.js', isSignedIn);
+  console.log('checkSignInStatus - in app.js', checkSignInStatus);
 
   const Tab = createBottomTabNavigator();
 
@@ -40,15 +42,17 @@ export default function App() {
         style={styles.keyboardAvoidingView}
       >
         <AuthProvider>
-          <NavigationContainer>
-            <Tab.Navigator initialRouteName="Name">
-              <Tab.Screen name="Name" component={NameScreen} options={{ title: 'Welcome' }} />
-              <Tab.Screen name="Main" component={MainScreen} options={{ title: 'LLM Chat' }} />
-              <Stack.Screen name="Summary" component={SummaryScreen} options={{ title: 'Summary' }} />
-              <Stack.Screen name="LogIn" component={LogInScreen} options={{ title: 'Log In' }} />
-            </Tab.Navigator>
-          </NavigationContainer>
-          </AuthProvider>
+          <MessageHistoryProvider>
+            <NavigationContainer>
+              <Tab.Navigator initialRouteName="Name">
+                <Tab.Screen name="Name" component={NameScreen} options={{ title: 'Welcome' }} />
+                <Tab.Screen name="Main" component={MainScreen} options={{ title: 'LLM Chat' }} />
+                <Stack.Screen name="Summary" component={SummaryScreen} options={{ title: 'Summary' }} />
+                <Stack.Screen name="LogIn" component={LogInScreen} options={{ title: 'Log In' }} />
+              </Tab.Navigator>
+            </NavigationContainer>
+           </MessageHistoryProvider>
+         </AuthProvider>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

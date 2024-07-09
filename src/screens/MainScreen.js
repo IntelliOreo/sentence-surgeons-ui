@@ -5,11 +5,13 @@ import { View, Text, StyleSheet, ScrollView, Modal, Pressable, TouchableWithoutF
 import MessageInput from '../components/MessageInput';
 import { sendMessageToLambda } from '../api/lambda';
 import { globalStyles, COLORS, FONTS, FONT_SIZES } from '../styles/globalStyles';
-import { AuthContext } from '../auth/AuthContext';
+import { AuthContext } from '../context/auth/AuthContext';
+import { MessageHistoryContext } from '../context/messageHistory/MessageHistoryContext';
 
 export default function MainScreen({ route }) {
   const {user, isSignedIn } = useContext(AuthContext);
-  
+  const { addConversation } = useContext(MessageHistoryContext);
+
   let name;
   if (isSignedIn){
     console.log('user in main screen', user);
@@ -42,7 +44,7 @@ export default function MainScreen({ route }) {
 
   const handleSendMessage = async () => {
     try {
-      const response = await sendMessageToLambda(message);
+      const response = await sendMessageToLambda(message, addConversation);
       setResults((prevResults) => [response, ...prevResults.slice(0, 2)]);
       setMessage('');
     } catch (error) {

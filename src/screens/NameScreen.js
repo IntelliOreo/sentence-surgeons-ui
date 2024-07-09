@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, TextInput, Text, StyleSheet } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import { globalStyles, FONT_SIZES, COLORS } from '../styles/globalStyles';
+import { AuthContext } from '../context/auth/AuthContext';
 
 const isValidName = (name) => {
     const nameRegex = /^[a-zA-Z][a-zA-Z0-9 .]*$/;  
@@ -12,9 +13,13 @@ export default function NameScreen({ navigation }) {
   const [name, setName] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const { isSignedIn, user } = useContext(AuthContext);
 
   useEffect(() => {
-    if (name.trim() === '') {
+    if(isSignedIn && user) {
+      setName(`Welcome back, ${user.name}`);
+      setIsValid(true);
+    } else if (name.trim() === '') {
       setIsValid(false);
       setErrorMessage('');
     } else if (!isValidName(name)) {
@@ -24,7 +29,7 @@ export default function NameScreen({ navigation }) {
       setIsValid(true);
       setErrorMessage('');
     }
-  }, [name]);
+  }, [name, isSignedIn, user]);
 
   const handleNameChange = (text) => {
     setName(text);
@@ -32,19 +37,21 @@ export default function NameScreen({ navigation }) {
 
   const handleContinue = () => {
     if (isValid) {
-      navigation.navigate('Main', { name: name.trim() });
+      navigation.navigate('Main', { name: isSignedIn && user ? user.name : name.trim() });
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Please enter your name:</Text>
-      <TextInput
-        style={[styles.input, !isValid && name.trim() !== '' && styles.inputError]}
-        value={name}
-        onChangeText={handleNameChange}
-        placeholder="Your name"
-      />
+      <Text style={styles.label}>{isSignedIn && user ? `Welcome back!! ${user.name}` : 'Please enter your name:'}</Text>
+      {!isSignedIn && (
+        <TextInput
+          style={[styles.input, !isValid && name.trim() !== '' && styles.inputError]}
+          value={name}
+          onChangeText={handleNameChange}
+          placeholder="Your name"
+        />
+      )}
       {errorMessage !== '' && (
         <Text style={styles.errorText}>{errorMessage}</Text>
       )}
