@@ -1,13 +1,26 @@
 // src/screens/MainScreen.js
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, ScrollView, Modal, Pressable, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import MessageInput from '../components/MessageInput';
 import { sendMessageToLambda } from '../api/lambda';
 import { globalStyles, COLORS, FONTS, FONT_SIZES } from '../styles/globalStyles';
+import { AuthContext } from '../auth/AuthContext';
 
 export default function MainScreen({ route }) {
-  const { name } = route.params;
+  const {user, isSignedIn } = useContext(AuthContext);
+  
+  let name;
+  if (isSignedIn){
+    console.log('user in main screen', user);
+    console.log('isSignedIn in main screen', isSignedIn);
+    name = user.name;
+  } else if(route.params && route.params.name){
+    name = route.params.name;
+  } else {
+    name = 'Anonymous';
+  }
+  
   const [message, setMessage] = useState('');
   const [results, setResults] = useState([]);
   const [showModal, setShowModal] = useState(false);

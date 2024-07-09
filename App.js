@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useFonts } from 'expo-font';
+import { AuthContext, AuthProvider } from './src/auth/AuthContext';
 import NameScreen from './src/screens/NameScreen';
 import MainScreen from './src/screens/MainScreen';
 import LogInScreen from './src/screens/LogInScreen';
@@ -10,7 +11,6 @@ import SummaryScreen from './src/screens/SummaryScreen';
 
 import { 
   KeyboardAvoidingView, 
-  ScrollView, 
   Platform, 
   SafeAreaView, 
   StyleSheet,
@@ -28,6 +28,8 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+  let  { isSignedIn, checkSignInStatus }  = useContext(AuthContext);
+  console.log('isSignedIn - in app.js', isSignedIn);
 
   const Tab = createBottomTabNavigator();
 
@@ -37,15 +39,16 @@ export default function App() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.keyboardAvoidingView}
       >
+        <AuthProvider>
           <NavigationContainer>
             <Tab.Navigator initialRouteName="Name">
               <Tab.Screen name="Name" component={NameScreen} options={{ title: 'Welcome' }} />
               <Tab.Screen name="Main" component={MainScreen} options={{ title: 'LLM Chat' }} />
-              {/* {isSignedIn ? (<Stack.Screen name="Summary" component={SummaryScreen} options={{ title: 'Summary' }} />) : null} */}
               <Stack.Screen name="Summary" component={SummaryScreen} options={{ title: 'Summary' }} />
               <Stack.Screen name="LogIn" component={LogInScreen} options={{ title: 'Log In' }} />
             </Tab.Navigator>
           </NavigationContainer>
+          </AuthProvider>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
