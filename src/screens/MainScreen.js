@@ -44,18 +44,18 @@ export default function MainScreen({ route }) {
   };
 
   const handleSendMessage = async () => {
+    if(!isConnected()){
+      Alert.alert(
+        'No Internet Connection',
+        'Please check your network settings and try again.',
+        [{ text: 'OK' }]
+      );
+    }
     try {
       const response = await sendMessageToLambda(message, addConversation);
       setResults((prevResults) => [response, ...prevResults.slice(0, 2)]);
       setMessage('');
     } catch (error) {
-      if(!isConnected){
-        Alert.alert(
-          'No Internet Connection',
-          'Please check your network settings and try again.',
-          [{ text: 'OK' }]
-        );
-      }
       console.error('Error sending message:', error);
       setResults((prevResults) => ['An error occurred. Please try again.', ...prevResults.slice(0, 2)]);
     }
