@@ -8,15 +8,17 @@ import { globalStyles, COLORS, FONTS, FONT_SIZES } from '../styles/globalStyles'
 import { AuthContext } from '../context/auth/AuthContext';
 import { MessageHistoryContext } from '../context/messageHistory/MessageHistoryContext';
 import { isConnected } from '../utils/network';
+import { RateLimitContext } from '../context/rateLimit/RateLimitContext';
+
 
 export default function MainScreen({ route }) {
   const {user, isSignedIn } = useContext(AuthContext);
   const { addConversation } = useContext(MessageHistoryContext);
+  const { incrementApiCallCount, isRateLimited } = useContext(RateLimitContext);
+ console.log('isRateLimited in main screen', isRateLimited);
 
   let name;
   if (isSignedIn){
-    console.log('user in main screen', user);
-    console.log('isSignedIn in main screen', isSignedIn);
     name = user.name;
   } else if(route.params && route.params.name){
     name = route.params.name;
@@ -43,18 +45,32 @@ export default function MainScreen({ route }) {
     setSelectedResult('');
   };
 
+  const RATE_LIMIT_PERIOD_MINUTES = 1; 
+
   const handleSendMessage = async () => {
+    // check internet connection
     if(!isConnected()){
       Alert.alert(
         'No Internet Connection',
         'Please check your network settings and try again.',
         [{ text: 'OK' }]
       );
+      return;
+    }       
+    console.log('in main screen handle send message');
+    // check rate limit
+    if (isRateLimited) {
+      Alert.alert('Rate Limit Exceeded', 'You have exceeded the maximum number of API calls allowed in the last hour.');
+      return;
     }
+      
+    // call the api
+
     try {
       const response = await sendMessageToLambda(message, addConversation);
       setResults((prevResults) => [response, ...prevResults.slice(0, 2)]);
       setMessage('');
+      incrementApiCallCount();
     } catch (error) {
       console.error('Error sending message:', error);
       setResults((prevResults) => ['An error occurred. Please try again.', ...prevResults.slice(0, 2)]);
