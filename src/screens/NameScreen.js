@@ -16,6 +16,13 @@ export default function NameScreen({ navigation }) {
   const { isSignedIn, user } = useContext(AuthContext);
 
   useEffect(() => {
+    if(!isSignedIn){
+      setName('');
+      setIsValid(false);
+    }
+  },[isSignedIn]);
+
+  useEffect(() => {
     if(isSignedIn && user) {
       setName(`Welcome back, ${user.name}`);
       setIsValid(true);

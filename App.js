@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useFonts } from 'expo-font';
 import { AuthContext, AuthProvider } from './src/context/auth/AuthContext';
 import { MessageHistoryProvider } from './src/context/messageHistory/MessageHistoryContext';
+import { RateLimitProvider } from './src/context/rateLimit/RateLimitContext';
 import NameScreen from './src/screens/NameScreen';
 import MainScreen from './src/screens/MainScreen';
 import LogInScreen from './src/screens/LogInScreen';
@@ -20,6 +21,7 @@ import {
 const Stack = createStackNavigator();
 
 export default function App() {
+  let  { isSignedIn, checkSignInStatus }  = useContext(AuthContext);
   const [fontsLoaded] = useFonts({
     'AmaticSC-Regular': require('./assets/fonts/AmaticSC-Regular.ttf'),
     'AmaticSC-Bold': require('./assets/fonts/AmaticSC-Bold.ttf'),
@@ -29,7 +31,7 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-  let  { isSignedIn, checkSignInStatus }  = useContext(AuthContext);
+
   console.log('isSignedIn - in app.js', isSignedIn);
   console.log('checkSignInStatus - in app.js', checkSignInStatus);
 
@@ -43,6 +45,7 @@ export default function App() {
       >
         <AuthProvider>
           <MessageHistoryProvider>
+          <RateLimitProvider>
             <NavigationContainer>
               <Tab.Navigator initialRouteName="Name">
                 <Tab.Screen name="Name" component={NameScreen} options={{ title: 'Welcome' }} />
@@ -51,6 +54,7 @@ export default function App() {
                 <Stack.Screen name="LogIn" component={LogInScreen} options={{ title: 'Log In' }} />
               </Tab.Navigator>
             </NavigationContainer>
+            </RateLimitProvider>
            </MessageHistoryProvider>
          </AuthProvider>
       </KeyboardAvoidingView>

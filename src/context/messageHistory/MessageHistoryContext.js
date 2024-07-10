@@ -43,6 +43,8 @@ export const MessageHistoryProvider = ({ children }) => {
         apiResponse,
         timestamp: Date.now()
       };
+
+      console.log('newConversation---line50', newConversation.id, newConversation.userInput);
       const updatedConversations = [newConversation, ...conversations].slice(0, MAX_CONVERSATIONS);
       setConversations(updatedConversations);
       console.log('conversations added - in MessageHistoryProvider', updatedConversations);
@@ -72,11 +74,3 @@ export const MessageHistoryProvider = ({ children }) => {
   );
 };
 
-
-// Message structure
-// {
-//   id: string,
-//   userInput: string,
-//   apiResponse: string,
-//   timestamp: number
-// }
