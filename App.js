@@ -21,7 +21,7 @@ import {
 const Stack = createStackNavigator();
 
 export default function App() {
-  let  { isSignedIn, checkSignInStatus }  = useContext(AuthContext);
+  let  { isSignedIn }  = useContext(AuthContext);
   const [fontsLoaded] = useFonts({
     'AmaticSC-Regular': require('./assets/fonts/AmaticSC-Regular.ttf'),
     'AmaticSC-Bold': require('./assets/fonts/AmaticSC-Bold.ttf'),
@@ -33,7 +33,7 @@ export default function App() {
   }
 
   console.log('isSignedIn - in app.js', isSignedIn);
-  console.log('checkSignInStatus - in app.js', checkSignInStatus);
+
 
   const Tab = createBottomTabNavigator();
 

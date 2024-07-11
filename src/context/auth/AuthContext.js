@@ -2,15 +2,15 @@ import React, { createContext, useState, useEffect, useCallback } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoadingScreen from '../../screens/LoadingScreen';
+import { signInWithApple } from './AppleSignIn';
 
-//import { configureGoogleSignIn, signInWithGoogle, signOutGoogle, restoreSignInState } from './GoogleSignIn';
+const dev = false;
 
 export const AuthContext = createContext({
    isSignedIn: false,
    user: null,
    signIn: () => {},
    signOut: () => {},
-   checkSignInStatus: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
@@ -20,84 +20,75 @@ export const AuthProvider = ({ children }) => {
   
 
   useEffect(() => {
-    // configureGoogleSignIn();
     setTimeout(() => {
         setIsLoading(false);
       }, 500); 
+      restoreSignInState();
     }, []); 
 
     useEffect(() => {
         () => console.log('isSignedIn updated in auth:', isSignedIn);
         }, [isSignedIn]); 
-
-  const checkSignInStatus = async () => {
-    try {
-      const token = await SecureStore.getItemAsync('userToken');
-      if (token) {
-        // const restoredUser = await restoreSignInState();
-        const restoredUser = true; // Testing
-        if (restoredUser) {
-          setUser(restoredUser);
+  
+  const restoreSignInState = async () => {
+        const userToken = await SecureStore.getItemAsync('userToken');
+        const userData = await AsyncStorage.getItem('userData');
+        if (userToken && userData) {
           setIsSignedIn(true);
-          await AsyncStorage.setItem('userData', JSON.stringify(restoredUser));
-          console.log('Restored user:', restoredUser);
+          setUser(JSON.parse(userData));
         } else {
-          await handleSignOut(); 
+          setIsSignedIn(false);
+          setUser(null);
         }
-      }
-    } catch (error) {
-      console.error('Error checking sign-in status:', error);
-      // Consider handling the error gracefully (e.g., display an error message to the user)
-    }
-  };
+      };
 
   const signOut = async () => {
-    try {
-      // await signOutGoogle();
-      await SecureStore.deleteItemAsync('userToken');
-      await AsyncStorage.removeItem('userData');
-      setIsSignedIn(false);
-      setUser(null);
-    } catch (error) {
-      console.error('Sign-out failed:', error);
-      await handleSignOut(); 
-    }
+    await deleteUserInfoAndSetState();
   };
 
   const signIn = useCallback(async () => {
     console.log('getting into the signIn callback');
     try {
-      // const userInfo = await signInWithGoogle();
-      const userInfo = {
-        user: { name: 'SignedInName', email: '<EMAIL>' },
-        idToken: '<TOKEN>',
-      }; // Testing
-      await SecureStore.setItemAsync('userToken', userInfo.idToken);
-      await AsyncStorage.setItem('userData', JSON.stringify(userInfo.user));
-      setUser(userInfo.user);
-      setIsSignedIn(true);
+      const credential = await signInWithApple();
+      const userInfo = userMapper(credential);
+      putUserInfoInStorageAndSetState(userInfo);
       console.log('isSignedIn updated in auth - line 78:', isSignedIn);
     } catch (error) {
       console.error('Sign-in failed:', error);
-      // Handle sign-in error gracefully
     }
   });
 
-  const handleSignOut = async () => {
-    // await signOutGoogle();
+  const deleteUserInfoAndSetState = async () => {
     await SecureStore.deleteItemAsync('userToken');
     await AsyncStorage.removeItem('userData');
     setIsSignedIn(false);
     setUser(null);
+  };
 
+  const userMapper = (credential) => {
+    return {
+      user: { name: `${credential.fullName.givenName} ${credential.fullName.familyName}`, email: credential.email },
+      idToken: credential.identityToken,
+    };
+  };
+
+  const putUserInfoInStorageAndSetState = async (userInfo) => {
+    try{
+      await SecureStore.setItemAsync('userToken', userInfo.idToken);
+      await AsyncStorage.setItem('userData', JSON.stringify(userInfo.user));
+      setUser(userInfo.user);
+      setIsSignedIn(true);
+    } catch(error){
+      console.error('Error putting user info:', error);
+    }  
   };
 
   return (
-    // <AuthContext.Provider value={{ isSignedIn, user, signIn, signOut, checkSignInStatus }}>
-    //   {children}
-    // </AuthContext.Provider>
-     <AuthContext.Provider value={{ isSignedIn, user, signIn, signOut, checkSignInStatus }}>
+
+     <AuthContext.Provider value={{ isSignedIn, user, signIn, signOut }}>
        {isLoading ? <LoadingScreen /> : children} 
      </AuthContext.Provider>
   );
+
+
 };
