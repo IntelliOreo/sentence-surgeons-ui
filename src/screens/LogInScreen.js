@@ -14,6 +14,7 @@ export default function LogInScreen({ navigation }) {
       console.log('isSignedIn in LogIn page:' + isSignedIn);
       navigation.navigate('Main');
     } catch (error) {
+      Sentry.captureException(error);
       console.error('Sign-in error:', error);
     }
   };
@@ -23,6 +24,7 @@ export default function LogInScreen({ navigation }) {
       await signOut();
       console.log('Signed out!');
     } catch (error) {
+      Sentry.captureException(error);
       console.error('Sign-out error:', error);
     }
   };
@@ -37,7 +39,8 @@ export default function LogInScreen({ navigation }) {
         </>
       ) : (
         <>
-        <CustomSignInButton onPress={handleSignIn} title="Don't In w/ me :D" />
+
+        <CustomSignInButton onPress={handleSignIn} title="Gooo :D" />
         <Text> </Text>       
         <AppleAuthentication.AppleAuthenticationButton
         buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
@@ -48,6 +51,7 @@ export default function LogInScreen({ navigation }) {
           try {
             signIn();
           } catch (e) {
+            Sentry.captureException(e);
             console.error(e);
           }
         }}
