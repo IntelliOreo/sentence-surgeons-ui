@@ -32,7 +32,10 @@
       "expo-apple-authentication"
     ],
     "extra": {
-      "apiUrl": "process.env.EXPO_PUBLIC_LAMDA_URL"
+      "apiUrl": "process.env.EXPO_PUBLIC_LAMDA_URL",
+      "eas": {
+        "projectId": "35579c0d-ea34-4fa4-a648-78888d08c7f5"
+      }
     }
   }
 }
