@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../context/auth/AuthContext';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import CustomSignInButton from '../components/CustomSignInButton';
 
 export default function LogInScreen({ navigation }) {
   const { signIn, signOut, isSignedIn } = useContext(AuthContext);
@@ -27,14 +29,32 @@ export default function LogInScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Log in</Text>
+      <Text style={styles.title}>Log in page</Text>
       {isSignedIn ? (
         <>
           <Text style={styles.message}>You are currently logged in.</Text>
           <Button title="Log Out" onPress={handleSignOut} />
         </>
       ) : (
-        <Button title="Hit this button!" onPress={handleSignIn} />
+        <>
+        <CustomSignInButton onPress={handleSignIn} title="Don't In w/ me :D" />
+        <Text> </Text>       
+        <AppleAuthentication.AppleAuthenticationButton
+        buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+        buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+        cornerRadius={5}
+        style={styles.button}
+        onPress={async () => {
+          try {
+            signIn();
+          } catch (e) {
+            console.error(e);
+          }
+        }}
+      />
+
+
+        </>
       )}
     </View>
   );
@@ -54,5 +74,9 @@ const styles = StyleSheet.create({
   message: {
     fontSize: 18,
     marginBottom: 20,
+  },
+  button: {
+    width: 200,
+    height: 44,
   },
 });

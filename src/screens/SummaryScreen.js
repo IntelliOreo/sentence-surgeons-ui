@@ -35,6 +35,12 @@ export default function SummaryScreen({ navigation }) {
     );
   }
 
+  // 
+  // if(!user){
+  //   return(
+  //     <View><Text>{allStorageData}</Text></View>
+  //   )
+  // }
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Summary for {user.email}</Text>

@@ -38,7 +38,7 @@ export const MessageHistoryProvider = ({ children }) => {
   const addConversation = useCallback(async (userInput, apiResponse) => {
     if (isSignedIn && user) {
       const newConversation = {
-        id: Date.now().toString(),
+        id: user + Date.now().toString(),
         userInput,
         apiResponse,
         timestamp: Date.now()
