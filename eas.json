@@ -10,6 +10,11 @@
     "preview": {
       "ios": {
         "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_GOOGLE_WEB_CLT": " ",
+        "EXPO_PUBLIC_LAMDA_URL":" "
+
       }
     },
     "production": {}
