@@ -9,3 +9,16 @@ https://react-native-google-signin.github.io/docs/setting-up/expo
 - npx expo prebuild --clean
 - npx expo run:android && npx expo run:ios
 
+npx expo-modules-autolinking search  
+
+npx expo-modules-autolinking resolve --platform ios
+
+npx expo-modules-autolinking verify 
+
+#prev: build without calling goog, apple login break.
+
+#build w google import [currently]
+@next: biuld w github 
+
+
+

@@ -12,8 +12,8 @@
         "simulator": true
       },
       "env": {
-        "EXPO_PUBLIC_GOOGLE_WEB_CLT": " ",
-        "EXPO_PUBLIC_LAMDA_URL":" "
+        "EXPO_PUBLIC_GOOGLE_WEB_CLT": "349767955495-ob1b278f1j2rephdh1sfpmhkno229f0s.apps.googleusercontent.com",
+        "EXPO_PUBLIC_LAMDA_URL":"http://localhost:8080"
 
       }
     },
