@@ -35,6 +35,15 @@
         {
           "iosUrlScheme": "com.googleusercontent.apps.349767955495-dq1m2b219lbmd6a17muu5orodi5fmjo1"
         }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "note": "Use SENTRY_AUTH_TOKEN env to authenticate with Sentry.",
+          "project": "javascript-react",
+          "organization": "intellioreo"
+        }
       ]
     ],
     "extra": {

@@ -17,8 +17,9 @@ npx expo-modules-autolinking verify
 
 #prev: build without calling goog, apple login break.
 
-#build w google import [currently]
-@next: biuld w github 
+#build w google impl
+
+eas build:clear-cache
 
 
 

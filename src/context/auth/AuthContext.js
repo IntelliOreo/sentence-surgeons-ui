@@ -3,16 +3,15 @@ import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoadingScreen from '../../screens/LoadingScreen';
 import { signInWithApple } from './AppleSignIn';
-import { signInWithGoogle, configureGoogleSignIn } from './GoogleAuth';
+// import { signInWithGoogle, configureGoogleSignIn } from './GoogleAuth';
 
-const dev = false;
 
 export const AuthContext = createContext({
    isSignedIn: false,
    user: null,
    signIn: () => {},
    signOut: () => {},
-   googleSignInTemporary: () => {},
+   //googleSignInTemporary: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
@@ -26,7 +25,7 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(false);
       }, 500); 
       restoreSignInState();
-      configureGoogleSignIn();
+      //configureGoogleSignIn();
     }, []); 
 
     useEffect(() => {
@@ -62,16 +61,16 @@ export const AuthProvider = ({ children }) => {
   });
 
 
-  const googleSignInTemporary = useCallback(async () => {
-    console.log('getting into the signIn callback');
-    try {
-      const credential = await signInWithGoogle();
-      isSignedIn(true);
-      console.log('isSignedIn in auth', isSignedIn);
-    } catch (error) {
-      console.error('Sign-in failed:', error);
-    }
-  });
+  // const googleSignInTemporary = useCallback(async () => {
+  //   console.log('getting into the signIn callback');
+  //   try {
+  //     const userInfo = await signInWithGoogle();
+  //     putUserInfoInStorageAndSetState(userInfo);
+  //     console.log('isSignedIn in auth', isSignedIn);
+  //   } catch (error) {
+  //     console.error('Sign-in failed:', error);
+  //   }
+  // });
 
   const deleteUserInfoAndSetState = async () => {
     await SecureStore.deleteItemAsync('userToken');
@@ -100,7 +99,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
 
-     <AuthContext.Provider value={{ isSignedIn, user, signIn, signOut, googleSignInTemporary }}>
+     <AuthContext.Provider value={{ isSignedIn, user, signIn, signOut }}>
        {isLoading ? <LoadingScreen /> : children} 
      </AuthContext.Provider>
   );
