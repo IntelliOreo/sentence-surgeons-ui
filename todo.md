@@ -1,6 +1,7 @@
 ### to do:
 1. rate-limiting: unreliable from the state 
 2. summary page - api call 
+3. logs/auth
 
 ### on-going:
 - eas build -p ios --profile preview
@@ -15,9 +16,8 @@ npx expo-modules-autolinking resolve --platform ios
 
 npx expo-modules-autolinking verify 
 
-#prev: build without calling goog, apple login break.
 
-#build w google impl
+#build w google impl, can't see logs, adding sentry
 
 eas build:clear-cache
 

@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
       putUserInfoInStorageAndSetState(userInfo);
       console.log('isSignedIn in auth', isSignedIn);
     } catch (error) {
-      Sentry.captureException(err);
+      Sentry.captureException(error);
       console.error('Sign-in failed:', error);
     }
   });
@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }) => {
       setUser(userInfo.user);
       setIsSignedIn(true);
     } catch(error){
-      Sentry.captureException(err);
+      Sentry.captureException(error);
       console.error('Error putting user info:', error);
     }  
   };
