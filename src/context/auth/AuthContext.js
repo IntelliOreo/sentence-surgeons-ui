@@ -3,6 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoadingScreen from '../../screens/LoadingScreen';
 import { signInWithApple } from './AppleSignIn';
+import { signInWithGoogle, configureGoogleSignIn } from './GoogleSignIn';
 
 const dev = false;
 
@@ -11,6 +12,7 @@ export const AuthContext = createContext({
    user: null,
    signIn: () => {},
    signOut: () => {},
+   googleSignInTemporary: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
@@ -24,6 +26,7 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(false);
       }, 500); 
       restoreSignInState();
+      configureGoogleSignIn();
     }, []); 
 
     useEffect(() => {
@@ -58,6 +61,17 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  const googleSignInTemporary = useCallback(async () => {
+    console.log('getting into the signIn callback');
+    try {
+      const credential = await signInWithGoogle();
+      isSignedIn(true);
+      console.log('isSignedIn in auth', isSignedIn);
+    } catch (error) {
+      console.error('Sign-in failed:', error);
+    }
+  });
+
   const deleteUserInfoAndSetState = async () => {
     await SecureStore.deleteItemAsync('userToken');
     await AsyncStorage.removeItem('userData');
@@ -85,7 +99,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
 
-     <AuthContext.Provider value={{ isSignedIn, user, signIn, signOut }}>
+     <AuthContext.Provider value={{ isSignedIn, user, signIn, signOut, googleSignInTemporary }}>
        {isLoading ? <LoadingScreen /> : children} 
      </AuthContext.Provider>
   );
