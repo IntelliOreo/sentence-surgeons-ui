@@ -2,8 +2,7 @@ import { Header } from '@react-navigation/stack';
 import axios from 'axios';
 import Constants from 'expo-constants';
 
- //const LAMBDA_URL = `${Constants.expoConfig.extra.apiUrl}/chat`;
- const LAMBDA_URL = 'http://localhost:8080/chat';
+ const LAMBDA_URL = `${Constants.expoConfig.extra.apiUrl}/chat`;
 
 export async function sendMessageToLambda(userInput, addConversation) {
   console.log('Sending user input to Lambda:', userInput);

@@ -5,11 +5,11 @@ import * as AppleAuthentication from 'expo-apple-authentication';
 import CustomSignInButton from '../components/CustomSignInButton';
 
 export default function LogInScreen({ navigation }) {
-  const { signIn, signOut, isSignedIn } = useContext(AuthContext);
+  const { signIn, signOut, isSignedIn, googleSignInTemporary } = useContext(AuthContext);
 
   const handleSignIn = async () => {
     try {
-      await signIn();
+      await googleSignInTemporary();
       console.log('Signed in! - login screen');
       console.log('isSignedIn in LogIn page:' + isSignedIn);
       navigation.navigate('Main');
