@@ -1,9 +1,8 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import Constants from 'expo-constants';
 
 export const configureGoogleSignIn = () => {
   GoogleSignin.configure({
-    webClientId: Constants.expoConfig.extra.googleClientId, // Get this from your Google API Console
+    webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLT, // Get this from your Google API Console
     offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
   });
 };
