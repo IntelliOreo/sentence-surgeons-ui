@@ -1,7 +1,9 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import * as Sentry from "@sentry/react-native";
 
 export const configureGoogleSignIn = () => {
   GoogleSignin.configure({
+    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLT, // Get this from your Google API Console
     webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLT, // Get this from your Google API Console
     offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
   });

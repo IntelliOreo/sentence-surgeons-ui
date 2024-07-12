@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../context/auth/AuthContext';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import CustomSignInButton from '../components/CustomSignInButton';
+import * as Sentry from "@sentry/react-native";
 
 export default function LogInScreen({ navigation }) {
   const { signIn, signOut, isSignedIn, googleSignInTemporary } = useContext(AuthContext);

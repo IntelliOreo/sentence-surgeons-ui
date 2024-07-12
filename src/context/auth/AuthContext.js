@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoadingScreen from '../../screens/LoadingScreen';
 import { signInWithApple } from './AppleSignIn';
 import { signInWithGoogle, configureGoogleSignIn } from './GoogleAuth';
+import * as Sentry from "@sentry/react-native";
 
 
 export const AuthContext = createContext({
