@@ -3,7 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoadingScreen from '../../screens/LoadingScreen';
 import { signInWithApple } from './AppleSignIn';
-//import { signInWithGoogle, configureGoogleSignIn } from './GoogleAuth';
+import { signInWithGoogle, configureGoogleSignIn } from './GoogleAuth';
 import { logger } from '../../utils/log';
 
 export const AuthContext = createContext({
@@ -11,7 +11,7 @@ export const AuthContext = createContext({
    user: null,
    signIn: () => {},
    signOut: () => {},
-   //googleSignInTemporary: () => {},
+   googleSignInTemporary: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(false);
       }, 500); 
       restoreSignInState();
-      //configureGoogleSignIn();
+      configureGoogleSignIn();
     }, []); 
 
     useEffect(() => {
@@ -61,16 +61,16 @@ export const AuthProvider = ({ children }) => {
   });
 
 
-  // const googleSignInTemporary = useCallback(async () => {
-  //   logger('getting into the signIn callback');
-  //   try {
-  //     const userInfo = await signInWithGoogle();
-  //     putUserInfoInStorageAndSetState(userInfo);
-  //     logger(`isSignedIn in auth,`,'', isSignedIn);
-  //   } catch (error) {
-  //     logger('Sign-in failed:', 'e', error);
-  //   }
-  // });
+  const googleSignInTemporary = useCallback(async () => {
+    logger('getting into the signIn callback');
+    try {
+      const userInfo = await signInWithGoogle();
+      putUserInfoInStorageAndSetState(userInfo);
+      logger(`isSignedIn in auth,`,'', isSignedIn);
+    } catch (error) {
+      logger('Sign-in failed:', 'e', error);
+    }
+  });
 
   const deleteUserInfoAndSetState = async () => {
     await SecureStore.deleteItemAsync('userToken');
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
 
-     <AuthContext.Provider value={{ isSignedIn, user, signIn, signOut }}>
+     <AuthContext.Provider value={{ isSignedIn, user, signIn, signOut, googleSignInTemporary }}>
        {isLoading ? <LoadingScreen /> : children} 
      </AuthContext.Provider>
   );

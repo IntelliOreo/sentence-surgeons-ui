@@ -6,11 +6,11 @@ import CustomSignInButton from '../components/CustomSignInButton';
 import { logger } from '../utils/log';
 
 export default function LogInScreen({ navigation }) {
-  const { signIn, signOut, isSignedIn } = useContext(AuthContext);
+  const { signIn, signOut, isSignedIn, googleSignInTemporary } = useContext(AuthContext);
 
   const handleSignIn = async () => {
     try {
-      //await googleSignInTemporary();
+      await googleSignInTemporary();
       logger(`googleSignInTemporay in LogInScreen, isSignedIn:`,'', isSignedIn)
       navigation.navigate('Main');
     } catch (error) {
