@@ -1,7 +1,7 @@
 ### to-do:
 1. rate-limiting: unreliable from the state 
 2. summary page - api call 
-3. logs/auth
+3. logs/auth - refactor google/apple/authcontext, verify google sign out
 
 ### EAS commands
 - eas build -p ios --profile preview

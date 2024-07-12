@@ -11,7 +11,7 @@ import MainScreen from './src/screens/MainScreen';
 import LogInScreen from './src/screens/LogInScreen';
 import SummaryScreen from './src/screens/SummaryScreen';
 import * as Sentry from "@sentry/react-native";
-
+import { logger } from './src/utils/log';
 
 import { 
   KeyboardAvoidingView, 
@@ -22,13 +22,15 @@ import {
 
 const Stack = createStackNavigator();
 
-Sentry.init({
-  dsn: "https://b6001c8a6eeccacdd77f9efdb9a94d6d:2b357b2e97d98c3b383a8a8bfeddc757@o4507585400143872.ingest.de.sentry.io/4507585403224144",
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for tracing.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-});
+if(process.env.EAS_BUILD){
+  Sentry.init({
+    dsn: "https://b6001c8a6eeccacdd77f9efdb9a94d6d:2b357b2e97d98c3b383a8a8bfeddc757@o4507585400143872.ingest.de.sentry.io/4507585403224144",
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for tracing.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+}
 
 function App() {
   let  { isSignedIn }  = useContext(AuthContext);
@@ -42,9 +44,8 @@ function App() {
     return null;
   }
 
-  console.log('isSignedIn - in app.js', isSignedIn);
-
-
+  logger(`isSignedIn - in app.js, ${isSignedIn}`);
+  
   const Tab = createBottomTabNavigator();
 
 

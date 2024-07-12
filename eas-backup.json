@@ -1,0 +1,28 @@
+{
+    "cli": {
+      "version": ">= 10.1.1"
+    },
+    "build": {
+      "development": {
+        "developmentClient": true,
+        "distribution": "internal"
+      },
+      "preview": {
+        "ios": {
+          "simulator": true
+        },
+        "env": {
+          "EXPO_PUBLIC_GOOGLE_WEB_CLT": " ",
+          "EXPO_PUBLIC_GOOGLE_IOS_CLT": " ",
+          "EXPO_PUBLIC_LAMDA_URL":" ",
+          "SENTRY_AUTH_TOKEN":"should not be here",
+          "EAS_BUILD": true
+        }
+      },
+      "production": {}
+    },
+    "submit": {
+      "production": {}
+    }
+  }
+  

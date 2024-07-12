@@ -9,13 +9,13 @@ import { AuthContext } from '../context/auth/AuthContext';
 import { MessageHistoryContext } from '../context/messageHistory/MessageHistoryContext';
 import { isConnected } from '../utils/network';
 import { RateLimitContext } from '../context/rateLimit/RateLimitContext';
-
+import { logger } from '../utils/log';
 
 export default function MainScreen({ route }) {
   const {user, isSignedIn } = useContext(AuthContext);
   const { addConversation } = useContext(MessageHistoryContext);
   const { incrementApiCallCount, isRateLimited } = useContext(RateLimitContext);
- console.log('isRateLimited in main screen', isRateLimited);
+  logger(`Main Screen, isRateLimited: ${isRateLimited}`)
 
   let name;
   if (isSignedIn){
@@ -57,7 +57,7 @@ export default function MainScreen({ route }) {
       );
       return;
     }       
-    console.log('in main screen handle send message');
+    logger('handleSendMessage, main screen.');
     // check rate limit
     if (isRateLimited) {
       Alert.alert('Rate Limit Exceeded', 'You have exceeded the maximum number of API calls allowed in the last hour.');
@@ -72,7 +72,7 @@ export default function MainScreen({ route }) {
       setMessage('');
       incrementApiCallCount();
     } catch (error) {
-      console.error('Error sending message:', error);
+      logger('Main screen. Error sending message: ', 'error', error);
       setResults((prevResults) => ['An error occurred. Please try again.', ...prevResults.slice(0, 2)]);
     }
   };

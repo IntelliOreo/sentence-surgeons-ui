@@ -4,8 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoadingScreen from '../../screens/LoadingScreen';
 import { signInWithApple } from './AppleSignIn';
 import { signInWithGoogle, configureGoogleSignIn } from './GoogleAuth';
-import * as Sentry from "@sentry/react-native";
-
+import { IsEnvSentryCaptureException } from '../../utils/network';
+import { logger } from '../../utils/log';
 
 export const AuthContext = createContext({
    isSignedIn: false,
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     }, []); 
 
     useEffect(() => {
-        () => console.log('isSignedIn updated in auth:', isSignedIn);
+        () => logger(`isSignedIn updated in auth: , ${isSignedIn}`);
         }, [isSignedIn]); 
   
   const restoreSignInState = async () => {
@@ -50,27 +50,26 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signIn = useCallback(async () => {
-    console.log('getting into the signIn callback');
+    logger('getting into the signIn callback');
     try {
       const credential = await signInWithApple();
       const userInfo = userMapper(credential);
       putUserInfoInStorageAndSetState(userInfo);
-      console.log('isSignedIn updated in auth - line 78:', isSignedIn);
+      logger(`isSignedIn updated in auth:, ${isSignedIn}`);
     } catch (error) {
-      console.error('Sign-in failed:', error);
+      logger('Sign-in failed:', 'error', error);
     }
   });
 
 
   const googleSignInTemporary = useCallback(async () => {
-    console.log('getting into the signIn callback');
+    logger('getting into the signIn callback');
     try {
       const userInfo = await signInWithGoogle();
       putUserInfoInStorageAndSetState(userInfo);
-      console.log('isSignedIn in auth', isSignedIn);
+      logger(`isSignedIn in auth, ${isSignedIn}`);
     } catch (error) {
-      Sentry.captureException(error);
-      console.error('Sign-in failed:', error);
+      logger('Sign-in failed:', 'error', error);
     }
   });
 
@@ -95,8 +94,7 @@ export const AuthProvider = ({ children }) => {
       setUser(userInfo.user);
       setIsSignedIn(true);
     } catch(error){
-      Sentry.captureException(error);
-      console.error('Error putting user info:', error);
+      logger('Error putting user info:', 'error', error);
     }  
   };
 

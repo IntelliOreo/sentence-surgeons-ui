@@ -1,3 +1,5 @@
+import { logger } from "../../utils/log";
+
 export const isLimited = async () => {
   try {
     const conversationsString = await AsyncStorage.getItem('conversations');
@@ -21,6 +23,6 @@ export const isLimited = async () => {
         }
       
   } catch(error) {
-    console.log('error in isLimited', error);
+    logger(`isLimited - rate limit func. Error: ${error}`, 'error', error);
   }
 };

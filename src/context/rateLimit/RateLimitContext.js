@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { logger } from '../../utils/log';
 
 export const RateLimitContext = createContext();
 
@@ -18,7 +19,7 @@ export const RateLimitProvider = ({ children }) => {
 
   const incrementApiCallCount = () => {
     setApiCallCount((prevCount) => prevCount + 1);
-    console.log('apiCallCount', apiCallCount);
+    logger(`Rate limit Context. apiCallCount: ${apiCallCount}`);
   };
 
   const isRateLimited = apiCallCount >= 5;

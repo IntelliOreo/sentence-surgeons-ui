@@ -1,5 +1,6 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import * as Sentry from "@sentry/react-native";
+import { IsEnvSentryCaptureException } from '../../utils/network';
+import { logger } from '../../utils/log';
 
 export const configureGoogleSignIn = () => {
   GoogleSignin.configure({
@@ -13,11 +14,10 @@ export const signInWithGoogle = async () => {
   try {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
-    console.log('Google Sign-In Success:', userInfo);
+    logger(`'Google Sign-In Success. userInfo: '${userInfo}`); 
     return userInfo;
   } catch (error) {
-    Sentry.captureException(err);
-    console.error('Google Sign-In Error:', error);
+    logger('Google Sign-In Error:','error', error);
     throw error;
   }
 };
@@ -26,7 +26,7 @@ export const signOutGoogle = async () => {
   try {
     await GoogleSignin.signOut();
   } catch (error) {
-    console.error('Google Sign-Out Error:', error);
+    logger('Google Sign-Out Error:','error', error);
     throw error;
   }
 };
@@ -40,7 +40,7 @@ export const restoreSignInState = async () => {
       }
       return null;
     } catch (error) {
-      console.error('Restore Sign-In State Error:', error);
+      logger('Restore Sign-In State Error:','error', error);
       throw error;
     }
   };

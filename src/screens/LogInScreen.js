@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../context/auth/AuthContext';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import CustomSignInButton from '../components/CustomSignInButton';
-import * as Sentry from "@sentry/react-native";
+import { logger } from '../../utils/log';
 
 export default function LogInScreen({ navigation }) {
   const { signIn, signOut, isSignedIn, googleSignInTemporary } = useContext(AuthContext);
@@ -11,22 +11,19 @@ export default function LogInScreen({ navigation }) {
   const handleSignIn = async () => {
     try {
       await googleSignInTemporary();
-      console.log('Signed in! - login screen');
-      console.log('isSignedIn in LogIn page:' + isSignedIn);
+      logger(`googleSignInTemporay in LogInScreen, isSignedIn: ${isSignedIn}`)
       navigation.navigate('Main');
     } catch (error) {
-      Sentry.captureException(error);
-      console.error('Sign-in error:', error);
+      logger('googleSignInTemporay in LogInScreen','error', error);
     }
   };
 
   const handleSignOut = async () => {
     try {
       await signOut();
-      console.log('Signed out!');
+      logger('handleSignOut in LogInScreen. Signed out.');
     } catch (error) {
-      Sentry.captureException(error);
-      console.error('Sign-out error:', error);
+      logger('handleSignOut in LogInScreen','error', error);
     }
   };
 
@@ -52,8 +49,7 @@ export default function LogInScreen({ navigation }) {
           try {
             signIn();
           } catch (e) {
-            Sentry.captureException(e);
-            console.error(e);
+            logger('AppleAuthentication in LogInScreen','error', e);
           }
         }}
       />
