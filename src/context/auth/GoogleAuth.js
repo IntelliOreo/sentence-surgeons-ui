@@ -1,5 +1,4 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { IsEnvSentryCaptureException } from '../../utils/network';
 import { logger } from '../../utils/log';
 
 export const configureGoogleSignIn = () => {

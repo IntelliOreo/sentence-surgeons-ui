@@ -4,7 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoadingScreen from '../../screens/LoadingScreen';
 import { signInWithApple } from './AppleSignIn';
 import { signInWithGoogle, configureGoogleSignIn } from './GoogleAuth';
-import { IsEnvSentryCaptureException } from '../../utils/network';
 import { logger } from '../../utils/log';
 
 export const AuthContext = createContext({
