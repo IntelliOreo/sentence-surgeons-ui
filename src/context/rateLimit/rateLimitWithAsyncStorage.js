@@ -23,6 +23,6 @@ export const isLimited = async () => {
         }
       
   } catch(error) {
-    logger(`isLimited - rate limit func. Error: ${error}`, 'error', error);
+    logger(`isLimited - rate limit func. Error:`, 'e', error);
   }
 };

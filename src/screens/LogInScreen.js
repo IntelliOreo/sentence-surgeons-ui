@@ -6,15 +6,15 @@ import CustomSignInButton from '../components/CustomSignInButton';
 import { logger } from '../utils/log';
 
 export default function LogInScreen({ navigation }) {
-  const { signIn, signOut, isSignedIn, googleSignInTemporary } = useContext(AuthContext);
+  const { signIn, signOut, isSignedIn } = useContext(AuthContext);
 
   const handleSignIn = async () => {
     try {
-      await googleSignInTemporary();
-      logger(`googleSignInTemporay in LogInScreen, isSignedIn: ${isSignedIn}`)
+      //await googleSignInTemporary();
+      logger(`googleSignInTemporay in LogInScreen, isSignedIn:`,'', isSignedIn)
       navigation.navigate('Main');
     } catch (error) {
-      logger('googleSignInTemporay in LogInScreen','error', error);
+      logger('googleSignInTemporay in LogInScreen','e', error);
     }
   };
 
@@ -23,7 +23,7 @@ export default function LogInScreen({ navigation }) {
       await signOut();
       logger('handleSignOut in LogInScreen. Signed out.');
     } catch (error) {
-      logger('handleSignOut in LogInScreen','error', error);
+      logger('handleSignOut in LogInScreen','e', error);
     }
   };
 
@@ -49,7 +49,7 @@ export default function LogInScreen({ navigation }) {
           try {
             signIn();
           } catch (e) {
-            logger('AppleAuthentication in LogInScreen','error', e);
+            logger('AppleAuthentication in LogInScreen','e', e);
           }
         }}
       />

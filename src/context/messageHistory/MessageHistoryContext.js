@@ -18,10 +18,10 @@ export const MessageHistoryProvider = ({ children }) => {
   useEffect(() => {
     if (isSignedIn && user) {
       loadConversations();
-      logger(`conversations loaded - in MessageHistoryProvider. ${conversations}`);
+      logger(`conversations loaded - in MessageHistoryProvider.`,'', conversations);
     } else {
       setConversations([]);
-      logger(`conversations cleared - in MessageHistoryProvider. ${conversations}`);
+      logger(`conversations cleared - in MessageHistoryProvider.`,'', conversations);
     }
   }, [isSignedIn, user]);
 
@@ -32,28 +32,28 @@ export const MessageHistoryProvider = ({ children }) => {
         setConversations(JSON.parse(storedConversations));
       }
     } catch (error) {
-      logger('MessageHistoryProvider. Error loading conversations: ','error', error);
+      logger('MessageHistoryProvider. Error loading conversations: ','e', error);
     }
   };
 
   const addConversation = useCallback(async (userInput, apiResponse) => {
     if (isSignedIn && user) {
       const newConversation = {
-        id: user + Date.now().toString(),
+        id: JSON.stringify(user) + Date.now().toString(),
         userInput,
         apiResponse,
         timestamp: Date.now()
       };
       
-      logger(`newConversation object created - in MessageHistoryProvider. ${newConversation.id}, ${newConversation.userInput}`);
+      logger(`newConversation object created - in MessageHistoryProvider. `,'',newConversation.id, newConversation.userInput);
       const updatedConversations = [newConversation, ...conversations].slice(0, MAX_CONVERSATIONS);
       setConversations(updatedConversations);
-      logger(`conversations added - in MessageHistoryProvider ${updatedConversations}`);
+      logger(`conversations added - in MessageHistoryProvider`,'', updatedConversations);
       
       try {
         await AsyncStorage.setItem(`conversations_${user.email}`, JSON.stringify(updatedConversations));
       } catch (error) {
-        logger('Error saving conversations in msgHistCxt:','error', error);
+        logger('Error saving conversations in msgHistCxt:','e', error);
       }
     }
   }, [conversations, isSignedIn, user]);
@@ -64,7 +64,7 @@ export const MessageHistoryProvider = ({ children }) => {
       try {
         await AsyncStorage.removeItem(`conversations_${user.email}`);
       } catch (error) {
-        logger('Error clearing conversations:','error', error);
+        logger('Error clearing conversations:','e', error);
       }
     }
   }, [isSignedIn, user]);

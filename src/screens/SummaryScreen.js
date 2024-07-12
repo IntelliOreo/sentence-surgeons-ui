@@ -17,7 +17,7 @@ export default function SummaryScreen({ navigation }) {
         const allData = await AsyncStorage.multiGet(allKeys);
         setAllStorageData(JSON.stringify(allData, null, 2));
       } catch (error) {
-        logger('Error fetching AsyncStorage data:', 'error', error);
+        logger('Error fetching AsyncStorage data:', 'e', error);
       }
     };
 

@@ -19,7 +19,7 @@ export const RateLimitProvider = ({ children }) => {
 
   const incrementApiCallCount = () => {
     setApiCallCount((prevCount) => prevCount + 1);
-    logger(`Rate limit Context. apiCallCount: ${apiCallCount}`);
+    logger(`Rate limit Context. apiCallCount:`,'', apiCallCount);
   };
 
   const isRateLimited = apiCallCount >= 5;

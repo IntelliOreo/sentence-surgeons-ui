@@ -14,7 +14,7 @@ export const signInWithApple = async () => {
     if (error.code === 'ERR_REQUEST_CANCELED') {
       logger('Apple Sign-In was canceled by the user.');
     } else {
-      logger('Apple Sign-In error:', 'error', error);
+      logger('Apple Sign-In error:', 'e', error);
     }
     throw error;
   }
@@ -30,7 +30,7 @@ export const refreshAppleCredential = async (user) => {
     if (error.code === 'ERR_REQUEST_CANCELED') {
       logger('Apple credential refresh was canceled by the user.');
     } else {
-      logger('Apple credential refresh error:', 'error', error);
+      logger('Apple credential refresh error:', 'e', error);
     }
     throw error;
   }
@@ -44,7 +44,7 @@ export const restoreAppleSignInState = async () => {
     }
     return null;
   } catch (error) {
-    logger('Error restoring Apple Sign-In state:', 'error', error);
+    logger('Error restoring Apple Sign-In state:', 'e', error);
     throw error;
   }
 };

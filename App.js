@@ -43,9 +43,8 @@ function App() {
   if (!fontsLoaded) {
     return null;
   }
-
-  logger(`isSignedIn - in app.js, ${isSignedIn}`);
-  
+  logger('App. isSignedIn:  ','', isSignedIn); 
+ 
   const Tab = createBottomTabNavigator();
 
 

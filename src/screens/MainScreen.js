@@ -15,7 +15,7 @@ export default function MainScreen({ route }) {
   const {user, isSignedIn } = useContext(AuthContext);
   const { addConversation } = useContext(MessageHistoryContext);
   const { incrementApiCallCount, isRateLimited } = useContext(RateLimitContext);
-  logger(`Main Screen, isRateLimited: ${isRateLimited}`)
+  logger(`Main Screen, isRateLimited: `,'',isRateLimited);
 
   let name;
   if (isSignedIn){
@@ -72,7 +72,7 @@ export default function MainScreen({ route }) {
       setMessage('');
       incrementApiCallCount();
     } catch (error) {
-      logger('Main screen. Error sending message: ', 'error', error);
+      logger('Main screen. Error sending message: ', 'e', error);
       setResults((prevResults) => ['An error occurred. Please try again.', ...prevResults.slice(0, 2)]);
     }
   };
