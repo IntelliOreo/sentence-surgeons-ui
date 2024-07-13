@@ -2,7 +2,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { logger } from '../../utils/log';
 
 export default class GoogleStrategy extends AuthStrategy {
-    constructor() {
+    constructor(setUser, setIsSignedIn) {
         super();
         this.initialize();
     }
@@ -19,33 +19,10 @@ export default class GoogleStrategy extends AuthStrategy {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
             logger(`Google Sign-In Success. userInfo: `,'',userInfo); 
-            return userInfo;
-          } catch (error) {
+            this.putUserInfoInStorageAndSetState(userInfo);
+        } catch (error) {
             logger('Google Sign-In Error:','e', error);
             throw error;
-          }
-    }
-  
-    async signOut(credentials) {
-        try {
-            await GoogleSignin.signOut();
-          } catch (error) {
-            logger('Google Sign-Out Error:','e', error);
-            throw error;
-          }
-    }
-
-    async restoreSignIn(credentials){
-        try {
-            const isSignedIn = await GoogleSignin.isSignedIn();
-            if (isSignedIn) {
-              const userInfo = await GoogleSignin.getCurrentUser();
-              return userInfo;
-            }
-            return null;
-          } catch (error) {
-            logger('Restore Sign-In State Error:','e', error);
-            throw error;
-          }
+        }
     }
   }

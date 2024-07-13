@@ -1,6 +1,12 @@
 import logger from '../../logger';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store'; 
 
 export default class AuthStrategy {
+  constructor(setUser, setIsSignedIn) {
+      this.setUser = setUser;
+      this.setIsSignedIn = setIsSignedIn;
+    }
 
     signIn(credentials) {
       throw new Error('signIn method must be implemented');
@@ -10,11 +16,52 @@ export default class AuthStrategy {
       throw new Error('signUp method must be implemented');
     }
   
-    signOut(credentials) {
-      throw new Error('signOut method must be implemented');
+    async signOut(credentials) {
+      try {
+        await this.deleteUserInfoAndSetState();
+      } catch (error) {
+        logger('Sign-Out Error:','e', error);
+      }
     }
 
-    restoreSignIn(credentials){
-      throw new Error('restoreSignIn method must be implemented');
+    async restoreSignInFromStorage(credentials){
+      const userToken = await SecureStore.getItemAsync('userToken');
+        const userData = await AsyncStorage.getItem('userData');
+        if (userToken && userData) {
+          setIsSignedIn(true);
+          setUser(JSON.parse(userData));
+        } else {
+          setIsSignedIn(false);
+          setUser(null);
+        }
     }
+
+    // internal methods
+
+    async putUserInfoInStorageAndSetState(userInfo){
+      try{
+        await SecureStore.setItemAsync('userToken', userInfo.idToken);
+        await AsyncStorage.setItem('userData', JSON.stringify(userInfo.user));
+        setUser(userInfo.user);
+        setIsSignedIn(true);
+      } catch(error){
+        logger('Error putting user info:', 'e', error);
+      }
+    } 
+
+    async deleteUserInfoAndSetState(){
+      try{
+        await SecureStore.deleteItemAsync('userToken');
+        await AsyncStorage.removeItem('userData');
+        setIsSignedIn(false);
+        setUser(null);
+      }catch(error){
+        logger('Error deleting user info in storage:', 'e', error);
+      }
+    };
+
+    userMapper(credentials){
+      throw new Error('userMapper method must be implemented');
+    };
+
   }
