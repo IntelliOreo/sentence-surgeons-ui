@@ -4,7 +4,7 @@
 
 // export default class GoogleStrategy extends AuthStrategy {
 //     constructor(setUser, setIsSignedIn) {
-//         super();
+//         super(setUser, setIsSignedIn);
 //         this.initialize();
 //     }
 

@@ -10,7 +10,7 @@ export default function LogInScreen({ navigation }) {
   const { setUser, setIsSignedIn, isSignedIn } = useContext(AuthContext);
   console.log('initServices,',  initServices)
   const authHandlers = initServices(setUser, setIsSignedIn);
-
+  
   const handleSignIn = async (provider) => {
     try {
       await authHandlers[provider].signIn();

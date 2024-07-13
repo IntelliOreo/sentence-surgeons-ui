@@ -4,9 +4,9 @@ import AuthStrategy from "../strategies/AuthStrategy";
 
 export default class AuthenticationService {
   constructor(provider, setUser, setIsSignedIn) {
-    this.strategy = this.getStrategy(provider);
     this.setUser = setUser;
     this.setIsSignedIn = setIsSignedIn;
+    this.strategy = this.getStrategy(provider);
   }
 
   getStrategy(provider) {
@@ -14,6 +14,7 @@ export default class AuthenticationService {
       case 'google':
         return new GoogleStrategy(this.setUser, this.setIsSignedIn);
       case 'apple':
+        console.log('passing in setUser?', this.setUser);
         return new AppleStrategy(this.setUser, this.setIsSignedIn);
       case 'generic':
         return new AuthStrategy(this.setUser, this.setIsSignedIn);

@@ -60,7 +60,9 @@ export default function MainScreen({ route }) {
     logger('handleSendMessage, main screen.');
     // check rate limit
     if (isRateLimited) {
-      Alert.alert('Rate Limit Exceeded', 'You have exceeded the maximum number of API calls allowed in the last hour.');
+      Alert.alert('Rate Limit Exceeded', 
+      'You have exceeded the maximum number of API calls allowed in the last hour.',
+      [{ text: 'OK' }]);
       return;
     }
       

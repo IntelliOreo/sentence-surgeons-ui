@@ -28,11 +28,11 @@ export default class AuthStrategy {
       const userToken = await SecureStore.getItemAsync('userToken');
         const userData = await AsyncStorage.getItem('userData');
         if (userToken && userData) {
-          setIsSignedIn(true);
-          setUser(JSON.parse(userData));
+          this.setIsSignedIn(true);
+          this.setUser(JSON.parse(userData));
         } else {
-          setIsSignedIn(false);
-          setUser(null);
+          this.setIsSignedIn(false);
+          this.setUser(null);
         }
     }
 
@@ -42,8 +42,8 @@ export default class AuthStrategy {
       try{
         await SecureStore.setItemAsync('userToken', userInfo.idToken);
         await AsyncStorage.setItem('userData', JSON.stringify(userInfo.user));
-        setUser(userInfo.user);
-        setIsSignedIn(true);
+        this.setUser(userInfo.user);
+        this.setIsSignedIn(true);
       } catch(error){
         logger('Error putting user info:', 'e', error);
       }
@@ -53,8 +53,8 @@ export default class AuthStrategy {
       try{
         await SecureStore.deleteItemAsync('userToken');
         await AsyncStorage.removeItem('userData');
-        setIsSignedIn(false);
-        setUser(null);
+        this.setIsSignedIn(false);
+        this.setUser(null);
       }catch(error){
         logger('Error deleting user info in storage:', 'e', error);
       }
