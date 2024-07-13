@@ -1,4 +1,4 @@
-import { logger } from "../../utils/log";
+import { logger } from "../../utils/logger";
 
 export const isLimited = async () => {
   try {

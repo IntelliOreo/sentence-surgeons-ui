@@ -1,6 +1,6 @@
 import { Header } from '@react-navigation/stack';
 import axios from 'axios';
-import { logger } from '../utils/log';
+import { logger } from '../utils/logger';
 
  const LAMBDA_URL = `${process.env.EXPO_PUBLIC_LAMDA_URL}/chat`;
 

@@ -9,7 +9,7 @@ import { AuthContext } from '../context/auth/AuthContext';
 import { MessageHistoryContext } from '../context/messageHistory/MessageHistoryContext';
 import { isConnected } from '../utils/network';
 import { RateLimitContext } from '../context/rateLimit/RateLimitContext';
-import { logger } from '../utils/log';
+import { logger } from '../utils/logger';
 
 export default function MainScreen({ route }) {
   const {user, isSignedIn } = useContext(AuthContext);

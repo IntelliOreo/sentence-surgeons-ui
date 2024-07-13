@@ -11,7 +11,7 @@ import MainScreen from './src/screens/MainScreen';
 import LogInScreen from './src/screens/LogInScreen';
 import SummaryScreen from './src/screens/SummaryScreen';
 import * as Sentry from "@sentry/react-native";
-import { logger } from './src/utils/log';
+import { logger } from './utils/logger';
 
 import { 
   KeyboardAvoidingView, 
