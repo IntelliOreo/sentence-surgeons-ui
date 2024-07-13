@@ -9,7 +9,7 @@ import { AuthContext } from '../context/auth/AuthContext';
 import { MessageHistoryContext } from '../context/messageHistory/MessageHistoryContext';
 import { isConnected } from '../utils/network';
 import { RateLimitContext } from '../context/rateLimit/RateLimitContext';
-import { logger } from '../utils/log';
+import { logger } from '../utils/logger';
 
 export default function MainScreen({ route }) {
   const {user, isSignedIn } = useContext(AuthContext);
@@ -60,7 +60,9 @@ export default function MainScreen({ route }) {
     logger('handleSendMessage, main screen.');
     // check rate limit
     if (isRateLimited) {
-      Alert.alert('Rate Limit Exceeded', 'You have exceeded the maximum number of API calls allowed in the last hour.');
+      Alert.alert('Rate Limit Exceeded', 
+      'You have exceeded the maximum number of API calls allowed in the last hour.',
+      [{ text: 'OK' }]);
       return;
     }
       

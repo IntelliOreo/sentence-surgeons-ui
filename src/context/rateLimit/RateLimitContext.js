@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { logger } from '../../utils/log';
+import { logger } from '../../utils/logger';
 
 export const RateLimitContext = createContext();
 

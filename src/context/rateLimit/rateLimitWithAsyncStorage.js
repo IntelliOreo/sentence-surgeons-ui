@@ -1,4 +1,5 @@
-import { logger } from "../../utils/log";
+import { logger } from "../../utils/logger";
+import { Alert } from "react-native";
 
 export const isLimited = async () => {
   try {
