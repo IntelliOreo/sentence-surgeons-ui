@@ -1,4 +1,4 @@
-import { AuthService } from '../../service/AuthService';
+import { AuthService } from '../service/AuthService';
 
 export default function initServices(setUser, setIsSignedIn) {
   

@@ -1,5 +1,5 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { logger } from '../../utils/log';
+import { logger } from '../../../utils/log';
 
 export default class AppleStrategy extends AuthStrategy {
   constructor(setUser, setIsSignedIn) {
