@@ -1,5 +1,6 @@
 // import { GoogleSignin } from '@react-native-google-signin/google-signin';
-// import { logger } from '../../utils/logger';
+// import { logger } from '../../../utils/logger';
+// import AuthStrategy from './AuthStrategy';
 
 // export default class GoogleStrategy extends AuthStrategy {
 //     constructor(setUser, setIsSignedIn) {

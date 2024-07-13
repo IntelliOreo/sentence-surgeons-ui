@@ -4,10 +4,11 @@ import { AuthContext } from '../context/auth/AuthContext';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import CustomSignInButton from '../components/CustomSignInButton';
 import { logger } from '../utils/logger';
-import { initServices } from '../context/auth/utils/initServices';
+import initServices from '../context/auth/utils/initServices';
 
 export default function LogInScreen({ navigation }) {
   const { setUser, setIsSignedIn, isSignedIn } = useContext(AuthContext);
+  console.log('initServices,',  initServices)
   const authHandlers = initServices(setUser, setIsSignedIn);
 
   const handleSignIn = async (provider) => {
