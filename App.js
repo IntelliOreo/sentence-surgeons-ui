@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -11,7 +11,7 @@ import MainScreen from './src/screens/MainScreen';
 import LogInScreen from './src/screens/LogInScreen';
 import SummaryScreen from './src/screens/SummaryScreen';
 import * as Sentry from "@sentry/react-native";
-import { logger } from './src/utils/log';
+import { logger } from './src/utils/logger';
 
 import { 
   KeyboardAvoidingView, 
@@ -22,7 +22,7 @@ import {
 
 const Stack = createStackNavigator();
 
-if(process.env.EAS_BUILD){
+if(process.env.EXPO_PUBLIC_EAS_BUILD) {
   Sentry.init({
     dsn: "https://b6001c8a6eeccacdd77f9efdb9a94d6d:2b357b2e97d98c3b383a8a8bfeddc757@o4507585400143872.ingest.de.sentry.io/4507585403224144",
     // Set tracesSampleRate to 1.0 to capture 100%
@@ -33,6 +33,7 @@ if(process.env.EAS_BUILD){
 }
 
 function App() {
+  Sentry.captureMessage(`App.js EAS env: ${process.env.EXPO_PUBLIC_EAS_BUILD}`);
   let  { isSignedIn }  = useContext(AuthContext);
   const [fontsLoaded] = useFonts({
     'AmaticSC-Regular': require('./assets/fonts/AmaticSC-Regular.ttf'),
@@ -49,8 +50,6 @@ function App() {
 
 
   return (
-    
-    <>
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView 
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -72,7 +71,6 @@ function App() {
          </AuthProvider>
       </KeyboardAvoidingView>
     </SafeAreaView>
-    </>
   );
 }
 

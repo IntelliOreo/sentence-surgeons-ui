@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useState, useEffect, useContext, useCallback } from 'react';
 import { AuthContext } from '../auth/AuthContext';
-import { logger } from '../../utils/log';
+import { logger } from '../../utils/logger';
 
 export const MessageHistoryContext = createContext({
   conversations: [],

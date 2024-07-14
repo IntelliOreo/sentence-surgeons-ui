@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import { AuthContext } from './../context/auth/AuthContext';
 import { MessageHistoryContext } from '../context/messageHistory/MessageHistoryContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { logger } from '../utils/log';
+import { logger } from '../utils/logger';
 
 export default function SummaryScreen({ navigation }) {
   const { isSignedIn, user } = useContext(AuthContext);
