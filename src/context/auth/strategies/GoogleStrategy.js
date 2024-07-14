@@ -6,6 +6,7 @@
 //     constructor(setUser, setIsSignedIn) {
 //         super(setUser, setIsSignedIn);
 //         this.initialize();
+//         logger('GoogleStrategy.constructor initialized');
 //     }
 
 //     initialize() {

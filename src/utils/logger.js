@@ -1,17 +1,24 @@
 import * as Sentry from "@sentry/react-native";
 
-export const logger = async (msg, level, ...args) => {
-    const shouldLogToSentry = process.env.EAS_BUILD && level === 'e';
-    const localEASBuild = process.env.EXPO_PUBLIC_EAS_BUILD && level === 'e';
-    if (shouldLogToSentry || localEASBuild ) {
-        Sentry.captureException(args[0]); 
-    }
-    if(!process.env.EAS_BUILD){
-        if(level ==='e'){
-            console.error(msg, ...args);
+export const logger = async (message, logLevel, ...additionalArgs) => {
+    const isEasBuild = process.env.EXPO_PUBLIC_EAS_BUILD;
+    const isErrorLevel = logLevel === 'e';
+
+    if (isEasBuild) {
+        if (isErrorLevel) {
+          Sentry.captureException(additionalArgs[0]);
         } else {
-            console.log(msg, ...args);
+            // let argsArray = [];
+            // if (additionalArgs.length > 0) {
+            //   argsArray = [...additionalArgs];
+            //   argsArray = argsArray.map( arg => JSON.stringify(arg) );
+            // }
+            // Sentry.captureMessage(`${message} ${argsArray.join(' ')}`);
         }
+    } else if (isErrorLevel){
+        console.error(message, ...additionalArgs);
+    } else {
+        console.log(message, ...additionalArgs);
     }
   };
 
