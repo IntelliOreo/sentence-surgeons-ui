@@ -8,12 +8,12 @@ export const logger = async (message, logLevel, ...additionalArgs) => {
         if (isErrorLevel) {
           Sentry.captureException(additionalArgs[0]);
         } else {
-            let argsArray = [];
-            if (additionalArgs.length > 0) {
-              argsArray = [...additionalArgs];
-              argsArray = argsArray.map( arg => JSON.stringify(arg) );
-            }
-            Sentry.captureMessage(`${message} ${argsArray.join(' ')}`);
+            // let argsArray = [];
+            // if (additionalArgs.length > 0) {
+            //   argsArray = [...additionalArgs];
+            //   argsArray = argsArray.map( arg => JSON.stringify(arg) );
+            // }
+            // Sentry.captureMessage(`${message} ${argsArray.join(' ')}`);
         }
     } else if (isErrorLevel){
         console.error(message, ...additionalArgs);
