@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import { AuthContext } from '../context/auth/AuthContext';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import CustomSignInButton from '../components/CustomSignInButton';

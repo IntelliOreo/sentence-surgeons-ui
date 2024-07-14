@@ -16,7 +16,7 @@
           "EXPO_PUBLIC_GOOGLE_IOS_CLT": " ",
           "EXPO_PUBLIC_LAMDA_URL":" ",
           "SENTRY_AUTH_TOKEN":"should not be here",
-          "EXPO_PUBLIC_EAS_BUILD": "true" // name it EXPO_PUBLIC_EAS_BUILD for easy testing in .env file
+          "EXPO_PUBLIC_EAS_BUILD": "true" 
         }
       },
       "production": {}
